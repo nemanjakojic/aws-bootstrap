@@ -1,23 +1,14 @@
 #!/bin/bash
-
-source aws-credentials.sh
-
-echo "${username}"
-echo "${Github_Token}"
-
-mkdir -p ~/.github
-echo "aws-bootstrap" > ~/.github/aws-bootstrap-repo
-echo "${username}" > ~/.github/aws-bootstrap-owner
-echo "${Github_Token}" > ~/.github/aws-bootstrap-access-token
+source ~/.aws/aws-credentials.sh
 
 STACK_NAME=awsbootstrap
 REGION=us-east-2 
 CLI_PROFILE=awsbootstrap
 EC2_INSTANCE_TYPE=t2.micro 
 
-GH_ACCESS_TOKEN=$(cat ~/.github/aws-bootstrap-access-token)
-GH_OWNER=$(cat ~/.github/aws-bootstrap-owner)
-GH_REPO=$(cat ~/.github/aws-bootstrap-repo)
+GH_ACCESS_TOKEN=${Github_Token}
+GH_OWNER=${username}
+GH_REPO="aws-bootstrap"
 GH_BRANCH=main
 
 AWS_ACCOUNT_ID=`aws sts get-caller-identity --profile awsbootstrap --query "Account" --output text`
