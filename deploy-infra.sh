@@ -1,23 +1,29 @@
-source aws_credentials.sh
+#!/bin/bash
+
+source aws-credentials.sh
+
+echo "${username}"
+echo "${Github_Token}"
+
 mkdir -p ~/.github
 echo "aws-bootstrap" > ~/.github/aws-bootstrap-repo
-echo "{{username}}" > ~/.github/aws-bootstrap-owner
-echo "{{Github_Token}}" > ~/.github/aws-bootstrap-access-token
+echo "${username}" > ~/.github/aws-bootstrap-owner
+echo "${Github_Token}" > ~/.github/aws-bootstrap-access-token
 
 STACK_NAME=awsbootstrap
-REGION=us-east-1 
+REGION=us-east-2 
 CLI_PROFILE=awsbootstrap
 EC2_INSTANCE_TYPE=t2.micro 
 
 GH_ACCESS_TOKEN=$(cat ~/.github/aws-bootstrap-access-token)
 GH_OWNER=$(cat ~/.github/aws-bootstrap-owner)
 GH_REPO=$(cat ~/.github/aws-bootstrap-repo)
-GH_BRANCH=master
+GH_BRANCH=main
 
 AWS_ACCOUNT_ID=`aws sts get-caller-identity --profile awsbootstrap --query "Account" --output text`
 CODEPIPELINE_BUCKET="$STACK_NAME-$REGION-codepipeline-$AWS_ACCOUNT_ID" 
 
-Echo $CODEPIPELINE_BUCKET
+echo $CODEPIPELINE_BUCKET
 
 # Deploys static resources
 echo "\n\n=========== Deploying setup.yml ==========="
